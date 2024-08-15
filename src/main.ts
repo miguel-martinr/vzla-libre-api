@@ -1,12 +1,25 @@
 import express from 'express';
+import cors from 'cors';
+import { getStates } from './controllers/getStates';
+import { getMunicipalitiesForState } from './controllers/getMunicipalitiesForState';
+import { getParishesForMunicipality } from './controllers/getParishesForMunicipality';
+import { getCentersForParish } from './controllers/getCentersForParish';
 
 export const main = async () => {
 
   const app = express();
 
-  app.get('/', (req, res) => {
-    res.send('Hello World!');
-  });
+  const corsOptions = {
+    origin: [
+      'http://localhost:5173',
+    ],
+  };
+
+  app.use(cors(corsOptions));
+  app.get('/states', getStates);
+  app.get('/states/:stateCode/municipalities', getMunicipalitiesForState);
+  app.get('/municipalities/:municipalityCode/parishes', getParishesForMunicipality)
+  app.get('/parishes/:parishCode/centers', getCentersForParish);
 
   app.listen(8000, () => {
     console.log('Server started on http://localhost:8000');
