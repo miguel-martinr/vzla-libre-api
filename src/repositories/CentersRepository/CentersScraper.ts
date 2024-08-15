@@ -14,7 +14,7 @@ export class CentersScraper {
 
     const centers = await page.evaluate((parishCode: number) => {
       const tableBody = document.getElementById('dependencyTableBody');
-      if (!tableBody) throw { status: 404, message: 'Table not found' };
+      if (!tableBody) throw { status: 404, message: 'tableBody not found' };
 
       const rows = tableBody.querySelectorAll('tr');
 
