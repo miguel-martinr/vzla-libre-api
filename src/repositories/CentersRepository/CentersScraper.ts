@@ -6,7 +6,10 @@ export class CentersScraper {
   constructor() { }
 
   async getCentersForParish(parishCode: number): Promise<GetCenterResponseItem[]> {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox']
+    });
     const page = await browser.newPage();
     await page.goto(`https://resultadosconvzla.com/parroquia/${parishCode}`, {
       waitUntil: 'domcontentloaded'

@@ -20,7 +20,7 @@ export const main = async () => {
   app.use(cors(corsOptions));
   app.get('/states', getStates);
   app.get('/states/:stateCode/municipalities', getMunicipalitiesForState);
-  app.get('/municipalities/:municipalityCode/parishes', getParishesForMunicipality)
+  app.get('/states/:stateCode/municipalities/:municipalityCode/parishes', getParishesForMunicipality)
   app.get('/parishes/:parishCode/centers', getCentersForParish);
   app.get('/centers/:centerCode/tables', getTablesForCenter);
   app.get('/images', getImage);
