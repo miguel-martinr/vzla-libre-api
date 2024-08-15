@@ -1,5 +1,5 @@
 import { getDbConnection } from "./database"
-import { CentersRepository } from "./repositories/CentersRepository";
+import { CentersRepository, CentersScraper } from "./repositories/CentersRepository";
 import { MunicipalitiesRepository } from "./repositories/MunicipalitiesRepository";
 import { ParishesRepository } from "./repositories/ParishesRepository";
 import { StatesRepository } from "./repositories/StatesRepository"
@@ -20,6 +20,9 @@ export const getCentersRepository = async () => {
   return new CentersRepository(await getDbConnection());
 }
 
+export const getCentersScraper = () => {
+  return new CentersScraper();
+}
 export const capitalizeFirstLetter = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }

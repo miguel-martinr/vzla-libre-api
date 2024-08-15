@@ -1,2 +1,2 @@
-export * from './CentersScrapper';
+export * from './CentersScraper';
 export * from './CentersRepository';

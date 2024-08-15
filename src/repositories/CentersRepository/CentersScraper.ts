@@ -2,7 +2,7 @@ import puppeteer from "puppeteer";
 
 import { GetCenterResponseItem } from "./types";
 
-export class CentersScrapper {
+export class CentersScraper {
   constructor() { }
 
   async getCentersForParish(parishCode: number): Promise<GetCenterResponseItem[]> {
@@ -12,7 +12,7 @@ export class CentersScrapper {
       waitUntil: 'domcontentloaded'
     });
 
-    const centers = await page.evaluate(() => {
+    const centers = await page.evaluate((parishCode: number) => {
       const tableBody = document.getElementById('dependencyTableBody');
       if (!tableBody) throw { status: 404, message: 'Table not found' };
 
@@ -28,11 +28,12 @@ export class CentersScrapper {
 
         return {
           code: parseInt(code),
+          parishCode,
           name: name
         }
       })
 
-    });
+    }, parishCode);
 
     await browser.close();
 

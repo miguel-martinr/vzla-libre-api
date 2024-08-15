@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-import { capitalizeFirstLetter, getCentersRepository, getParishesRepository } from '../helpers';
-import { CentersScrapper } from '../repositories/CentersRepository';
+import { getCentersRepository, getCentersScraper } from '../helpers';
 
 type GetCentersForParishRequest = Request & {
   params: {
@@ -14,14 +13,21 @@ export const getCentersForParish = async (req: GetCentersForParishRequest, res: 
 
     const { parishCode } = req.params;
     const centersRepository = await getCentersRepository();
-    const centers = await centersRepository.getCentersForParish(parishCode);
+    const centersScraper = getCentersScraper();
+    const centersInDb = await centersRepository.getCentersForParish(parishCode);
+    if (centersInDb.length > 0) {
+      console.log("Centers found in db");
+      return res.json({ centers: centersInDb });
+    }
 
-    res.json({ centers: centers });
-
-    centersRepository.addCenters(centers).catch((error) => {
+    console.log("Centers not found in db, scraping web");
+    const centersInWeb = await centersScraper.getCentersForParish(parishCode);
+    res.json({ centers: centersInWeb });
+    centersRepository.addCenters(centersInWeb).catch((error) => {
       console.error('Error adding centers to database', error);
     });
   } catch (error: any) {
+    console.log("Error while calling getCentersForParish", error);
     const status = error.status || 500;
     const errorMessage = error.message || 'Internal server error';
     res.status(status).json({ error: errorMessage });

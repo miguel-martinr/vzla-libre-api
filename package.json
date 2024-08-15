@@ -15,8 +15,7 @@
     "expres": "^0.0.5",
     "knex": "^3.1.0",
     "mysql2": "^3.11.0",
-    "puppeteer": "^23.1.0",
-    "x-ray-scraper": "^3.0.6"
+    "puppeteer": "^23.1.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
